@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>¡Feliz Cumpleaños, Leslie!</title>
+    <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+    <canvas id="fw" aria-label="Lienzo de fuegos artificiales"></canvas>
+
+    <div class="title-wrap">
+        <div>
+            <h1>¡Feliz Cumpleaños,<br>LESLIE!</h1>
+        </div>
+    </div>
+
+    <!-- Contenedor 100% Código SVG, 100% Responsivo -->
+    <div id="cake-container">
+        <!-- viewBox 0 0 1600 1000 asegura que todo se mantenga proporcionado sin importar la pantalla -->
+        <svg viewBox="0 0 1600 1000" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="15" result="blur"/>
+                    <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+                    <feOffset dy="15" dx="0"/>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- ================= PASTEL ROSA Y BLANCO CON FLORES ================= -->
+            <g filter="url(#softShadow)">
+                <!-- Base del Plato -->
+                <ellipse cx="800" cy="880" rx="450" ry="110" fill="#2d3748"/>
+                <ellipse cx="800" cy="860" rx="430" ry="100" fill="#e2e8f0"/>
+                <ellipse cx="800" cy="855" rx="410" ry="95" fill="#f8fafc"/>
+
+                <!-- Piso Inferior: Rosa -->
+                <path d="M450,650 L450,850 A350,80 0 0,0 1150,850 L1150,650 Z" fill="#ff85a1"/>
+                <ellipse cx="800" cy="650" rx="350" ry="80" fill="#ffb7c5"/>
+                <!-- Glaseado Derretido Inferior (Blanco) -->
+                <path d="M450,650 Q500,740 550,660 Q612,760 675,670 Q737,770 800,680 Q862,770 925,670 Q987,760 1050,660 Q1100,740 1150,650 Z" fill="#ffffff"/>
+
+                <!-- Piso Superior: Blanco Crema -->
+                <path d="M550,450 L550,650 A250,65 0 0,0 1050,650 L1050,450 Z" fill="#fff0f5"/>
+                <ellipse cx="800" cy="450" rx="250" ry="65" fill="#ffffff"/>
+                <!-- Glaseado Derretido Superior (Rosa) -->
+                <path d="M550,450 Q600,530 633,470 Q680,550 716,480 Q760,560 800,490 Q850,560 883,480 Q930,550 966,470 Q1010,530 1050,450 Z" fill="#ff85a1"/>
+                
+                <!-- MUCHAS FLORES DECORATIVAS EN EL PASTEL -->
+                <!-- Flores Base Izquierda -->
+                <g class="flower-deco" transform="translate(500, 820) scale(1.2)">
+                    <circle cx="-15" cy="-15" r="18" fill="#ffdf00"/><circle cx="15" cy="-15" r="18" fill="#ffdf00"/>
+                    <circle cx="-15" cy="15" r="18" fill="#ffdf00"/><circle cx="15" cy="15" r="18" fill="#ffdf00"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+                <g class="flower-deco" transform="translate(600, 840) scale(0.9)">
+                    <circle cx="-15" cy="-15" r="18" fill="#00d2ff"/><circle cx="15" cy="-15" r="18" fill="#00d2ff"/>
+                    <circle cx="-15" cy="15" r="18" fill="#00d2ff"/><circle cx="15" cy="15" r="18" fill="#00d2ff"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+
+                <!-- Flores Centro -->
+                <g class="flower-deco" transform="translate(800, 860) scale(1.5)">
+                    <circle cx="-15" cy="-15" r="18" fill="#a020f0"/><circle cx="15" cy="-15" r="18" fill="#a020f0"/>
+                    <circle cx="-15" cy="15" r="18" fill="#a020f0"/><circle cx="15" cy="15" r="18" fill="#a020f0"/>
+                    <circle cx="0" cy="0" r="12" fill="#ffdf00"/>
+                </g>
+                <g class="flower-deco" transform="translate(800, 680) scale(1.2)">
+                    <circle cx="-15" cy="-15" r="18" fill="#ffdf00"/><circle cx="15" cy="-15" r="18" fill="#ffdf00"/>
+                    <circle cx="-15" cy="15" r="18" fill="#ffdf00"/><circle cx="15" cy="15" r="18" fill="#ffdf00"/>
+                    <circle cx="0" cy="0" r="12" fill="#a020f0"/>
+                </g>
+
+                <!-- Flores Base Derecha -->
+                <g class="flower-deco" transform="translate(1000, 840) scale(0.9)">
+                    <circle cx="-15" cy="-15" r="18" fill="#ff7eb3"/><circle cx="15" cy="-15" r="18" fill="#ff7eb3"/>
+                    <circle cx="-15" cy="15" r="18" fill="#ff7eb3"/><circle cx="15" cy="15" r="18" fill="#ff7eb3"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+                <g class="flower-deco" transform="translate(1100, 820) scale(1.2)">
+                    <circle cx="-15" cy="-15" r="18" fill="#00d2ff"/><circle cx="15" cy="-15" r="18" fill="#00d2ff"/>
+                    <circle cx="-15" cy="15" r="18" fill="#00d2ff"/><circle cx="15" cy="15" r="18" fill="#00d2ff"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+
+                <!-- Flores Piso Superior -->
+                <g class="flower-deco" transform="translate(600, 640) scale(1)">
+                    <circle cx="-15" cy="-15" r="18" fill="#a020f0"/><circle cx="15" cy="-15" r="18" fill="#a020f0"/>
+                    <circle cx="-15" cy="15" r="18" fill="#a020f0"/><circle cx="15" cy="15" r="18" fill="#a020f0"/>
+                    <circle cx="0" cy="0" r="12" fill="#ffdf00"/>
+                </g>
+                <g class="flower-deco" transform="translate(1000, 640) scale(1)">
+                    <circle cx="-15" cy="-15" r="18" fill="#ffdf00"/><circle cx="15" cy="-15" r="18" fill="#ffdf00"/>
+                    <circle cx="-15" cy="15" r="18" fill="#ffdf00"/><circle cx="15" cy="15" r="18" fill="#ffdf00"/>
+                    <circle cx="0" cy="0" r="12" fill="#ff7eb3"/>
+                </g>
+                <g class="flower-deco" transform="translate(700, 480) scale(0.8)">
+                    <circle cx="-15" cy="-15" r="18" fill="#ff7eb3"/><circle cx="15" cy="-15" r="18" fill="#ff7eb3"/>
+                    <circle cx="-15" cy="15" r="18" fill="#ff7eb3"/><circle cx="15" cy="15" r="18" fill="#ff7eb3"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+                <g class="flower-deco" transform="translate(900, 480) scale(0.8)">
+                    <circle cx="-15" cy="-15" r="18" fill="#00d2ff"/><circle cx="15" cy="-15" r="18" fill="#00d2ff"/>
+                    <circle cx="-15" cy="15" r="18" fill="#00d2ff"/><circle cx="15" cy="15" r="18" fill="#00d2ff"/>
+                    <circle cx="0" cy="0" r="12" fill="#fff"/>
+                </g>
+            </g>
+
+            <!-- ================= VELAS BRILLANTES ================= -->
+            <g>
+                <rect x="635" y="300" width="30" height="130" rx="6" fill="#00d2ff"/>
+                <line x1="650" y1="300" x2="650" y2="280" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                <path class="flame" d="M650,210 Q668,250 650,275 Q632,250 650,210" fill="#ff9d00" filter="url(#glow)"/>
+                <path class="flame" d="M650,230 Q660,255 650,270 Q640,255 650,230" fill="#fff200"/>
+            </g>
+            <g>
+                <rect x="785" y="270" width="30" height="160" rx="6" fill="#ffdf00"/>
+                <line x1="800" y1="270" x2="800" y2="250" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                <path class="flame" d="M800,180 Q818,220 800,245 Q782,220 800,180" fill="#ff9d00" filter="url(#glow)"/>
+                <path class="flame" d="M800,200 Q810,225 800,240 Q790,225 800,200" fill="#fff200"/>
+            </g>
+            <g>
+                <rect x="935" y="300" width="30" height="130" rx="6" fill="#a020f0"/>
+                <line x1="950" y1="300" x2="950" y2="280" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                <path class="flame" d="M950,210 Q968,250 950,275 Q932,250 950,210" fill="#ff9d00" filter="url(#glow)"/>
+                <path class="flame" d="M950,230 Q960,255 950,270 Q940,255 950,230" fill="#fff200"/>
+            </g>
+
+            <!-- ================= SNOOPY A LA IZQUIERDA ================= -->
+            <g transform="translate(150, 700) scale(1.6)" class="snoopy">
+                <!-- Cola -->
+                <path d="M 10,-30 Q -10,-40 0,-50" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <!-- Pierna Izquierda -->
+                <rect x="25" y="-20" width="12" height="30" fill="#fff" stroke="#111" stroke-width="3"/>
+                <!-- Pierna Derecha -->
+                <rect x="55" y="-20" width="12" height="30" fill="#fff" stroke="#111" stroke-width="3"/>
+                <!-- Pie Izquierdo -->
+                <ellipse cx="20" cy="10" rx="22" ry="12" fill="#fff" stroke="#111" stroke-width="3"/>
+                <!-- Pie Derecho -->
+                <ellipse cx="65" cy="10" rx="22" ry="12" fill="#fff" stroke="#111" stroke-width="3"/>
+                <!-- Cuerpo (forma de frijol) -->
+                <path d="M 30,-50 C 20,-10 70,-10 60,-50 C 55,-70 35,-70 30,-50 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                <!-- Brazo levantado -->
+                <path d="M 45,-45 Q 70,-60 80,-40" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <!-- Collar -->
+                <path d="M 32,-68 L 62,-60" stroke="#e53935" stroke-width="7" stroke-linecap="round"/>
+                <!-- Cabeza y Hocico -->
+                <path d="M 30,-65 C 10,-120 70,-120 70,-90 C 80,-90 105,-80 105,-60 C 105,-35 45,-35 40,-65 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                <!-- Oreja negra -->
+                <path d="M 45,-95 C 30,-95 35,-50 45,-50 C 55,-50 60,-95 45,-95 Z" fill="#111"/>
+                <!-- Nariz -->
+                <circle cx="102" cy="-65" r="7" fill="#111"/>
+                <!-- Ojo -->
+                <path d="M 65,-80 Q 70,-88 75,-80" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- Sonrisa -->
+                <path d="M 75,-50 Q 85,-45 92,-55" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </g>
+
+            <!-- ================= WOODSTOCK A LA DERECHA ================= -->
+            <g transform="translate(1300, 780) scale(1.6)" class="woodstock">
+                <!-- Patitas -->
+                <line x1="45" y1="10" x2="45" y2="30" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="55" y1="10" x2="55" y2="30" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="35" y1="30" x2="45" y2="30" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="55" y1="30" x2="65" y2="30" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <!-- Cola -->
+                <path d="M 65,-10 Q 80,-20 75,-5" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- Cuerpo -->
+                <ellipse cx="50" cy="0" rx="16" ry="22" fill="#ffdf00" stroke="#111" stroke-width="2.5"/>
+                <!-- Ala -->
+                <path d="M 50,-5 Q 65,15 75,-5 Z" fill="#ffdf00" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Cabeza -->
+                <circle cx="45" cy="-32" r="18" fill="#ffdf00" stroke="#111" stroke-width="2.5"/>
+                <!-- Pelo puntiagudo -->
+                <path d="M 35,-48 Q 20,-65 40,-50 M 45,-50 Q 42,-70 50,-50 M 55,-48 Q 70,-60 58,-42 M 60,-38 Q 75,-35 62,-28" 
+                      fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Ojo -->
+                <circle cx="38" cy="-35" r="2.5" fill="#111"/>
+                <!-- Pico -->
+                <path d="M 32,-30 Q 5,-25 32,-20 Z" fill="#ffdf00" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+            </g>
+
+        </svg>
+    </div>
+
+    <div class="ribbon">Pide un deseo... 🎂✨</div>
+
+    <div class="subtitle-bottom" aria-hidden="true">
+        <div class="spark"></div>
+        <span>Haz clic en la pantalla para la fiesta</span>
+        <div class="spark"></div><div class="spark"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

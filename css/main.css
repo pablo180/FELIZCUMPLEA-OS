@@ -1,0 +1,104 @@
+:root{
+    --bg1:#2a0845; --bg2:#0f0518;
+    --text1:#ff7eb3; --text2:#ffdf00;
+    --headerH: 20vh;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+    background: radial-gradient(1200px 700px at 50% 10%, #3b1c4a 0%, var(--bg1) 40%, var(--bg2) 100%);
+    color:white; overflow:hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title-wrap{
+    position:absolute; inset:0 0 auto 0; height:var(--headerH);
+    display:grid; place-items:center; pointer-events:none; padding:12px; z-index: 10;
+}
+h1{
+    margin:18px 12px 0; text-align:center; line-height:1.1; font-weight:900; letter-spacing:1px; 
+    font-size: clamp(32px, 6vw, 64px);
+    background: linear-gradient(180deg, var(--text1), var(--text2)); -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow: 0 0 14px rgba(255, 126, 179, 0.4), 0 0 28px rgba(255, 223, 0, 0.3); animation: floatTitle 4s ease-in-out infinite;
+}
+
+@keyframes floatTitle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* Contenedor del SVG 100% Responsivo */
+#cake-container{
+    position:absolute; 
+    bottom: 5vh; 
+    left:50%; 
+    transform:translateX(-50%);
+    width: 100%; 
+    max-width: 1400px; /* Limita el ancho en pantallas gigantes */
+    height: 80vh; /* Se adapta al alto de la pantalla */
+    pointer-events:none; 
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* Animación del fuego de velas */
+.flame { transform-origin: center bottom; animation: flicker 0.6s infinite alternate; }
+@keyframes flicker {
+    0%   { transform: scale(1) skewX(2deg); opacity: 0.9; }
+    50%  { transform: scale(1.1) skewX(-2deg) translateY(-2px); opacity: 1; }
+    100% { transform: scale(0.95) skewX(1deg) translateY(1px); opacity: 0.8; }
+}
+
+/* Animaciones de los personajes */
+.snoopy { transform-origin: 50% 100%; animation: danceSnoopy 0.6s ease-in-out infinite alternate; }
+@keyframes danceSnoopy {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.woodstock { transform-origin: 50% 100%; animation: danceWoodstock 0.3s ease-in-out infinite alternate; }
+@keyframes danceWoodstock {
+    0% { transform: translateY(0) rotate(10deg); }
+    100% { transform: translateY(-20px) rotate(-10deg); }
+}
+
+/* Animación de las flores */
+.flower-deco { transform-origin: center; animation: flowerSpin 6s linear infinite; }
+@keyframes flowerSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.ribbon{
+    position:absolute; left:50%; bottom:16vh; transform:translateX(-50%);
+    padding:.8rem 1.5rem; border-radius:999px; font-weight:700; letter-spacing:.5px;
+    background:rgba(255, 126, 179, 0.15); border:1px solid rgba(255, 126, 179, 0.4);
+    box-shadow:0 8px 28px rgba(0,0,0,.4), inset 0 0 20px rgba(255, 126, 179, 0.2);
+    animation: rise 6s ease-in-out infinite; font-size: clamp(14px, 2.5vw, 18px); color: #ffdf00;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 10;
+}
+@keyframes rise{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-12px)}}
+
+.subtitle-bottom{
+    position:absolute; left:50%; bottom:3vh; transform:translateX(-50%); display:flex; align-items:center; gap:.6rem;
+    padding:.55rem 1rem; border-radius:999px; font-weight:700; letter-spacing:.2px; font-size: clamp(12px, 2.4vw, 16px);
+    background: radial-gradient(120% 180% at 20% 10%, rgba(255, 223, 0, 0.15), rgba(255, 126, 179, 0.1));
+    border:1px solid rgba(255, 223, 0, 0.3); box-shadow: 0 8px 28px rgba(0,0,0,.35), inset 0 0 24px rgba(255, 223, 0, 0.15);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: default; user-select:none; z-index: 10;
+}
+.spark{width:.6rem; height:.6rem; border-radius:50%; background:#ffdf00; box-shadow:0 0 8px #ffdf00, 0 0 16px #ffdf0066; animation: blink 1.6s infinite ease-in-out;}
+.spark:nth-child(1){animation-delay:.0s} .spark:nth-child(2){animation-delay:.3s} .spark:nth-child(3){animation-delay:.6s}
+@keyframes blink{0%,100%{opacity:.3; transform:translateY(0)}50%{opacity:1; transform:translateY(-2px)}}
+
+#fw{position:absolute; inset:0; pointer-events:auto; touch-action:manipulation; z-index: 1;}
+
+/* Ajustes Extra para Teléfonos Móviles */
+@media (max-width: 600px) {
+    #cake-container {
+        height: 70vh; /* Ajusta la altura para que no se sobreponga al título en móviles */
+        bottom: 8vh;
+    }
+    .ribbon {
+        bottom: 12vh;
+    }
+}

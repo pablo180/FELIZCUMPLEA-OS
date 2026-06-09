@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>🎂 ¡Feliz Cumpleaños 15x2, Leslie! 🎉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 30% 20%, #2e1a3a, #0a0510);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Montserrat', sans-serif;
+            overflow: hidden;
+            position: relative;
+            touch-action: pan-y pinch-zoom;
+        }
+
+        /* Canvas de fuegos artificiales (interactivo) */
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: auto;
+            z-index: 2;
+        }
+
+        /* Contenedor principal del SVG centrado */
+        .cake-stage {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+
+        svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4));
+        }
+
+        /* Título principal flotante */
+        .birthday-title {
+            position: fixed;
+            top: 5%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            z-index: 20;
+            animation: floatTitle 3s ease-in-out infinite;
+        }
+
+        .birthday-title h1 {
+            font-size: clamp(2.2rem, 8vw, 4.8rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFD966, #FF88B5, #FFD966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 105, 180, 0.4);
+            letter-spacing: 2px;
+        }
+
+        /* Cinta interactiva inferior */
+        .wish-ribbon {
+            position: fixed;
+            bottom: 4%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 220, 150, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 12px 28px;
+            border-radius: 60px;
+            color: #FFECB3;
+            font-weight: bold;
+            font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            border: 1px solid rgba(255, 220, 120, 0.6);
+            box-shadow: 0 0 20px rgba(255, 180, 80, 0.3);
+            z-index: 20;
+            pointer-events: none;
+            white-space: nowrap;
+            animation: bounceRibbon 2s infinite;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .hint-click {
+            position: fixed;
+            bottom: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.3);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            color: #ffdd99;
+            backdrop-filter: blur(4px);
+            z-index: 20;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        @keyframes floatTitle {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes bounceRibbon {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-6px); }
+        }
+
+        @media (max-width: 650px) {
+            .wish-ribbon { white-space: normal; width: 85%; text-align: center; padding: 8px 16px; font-size: 0.8rem; bottom: 6%; }
+            .hint-click { bottom: 12px; font-size: 0.65rem; }
+            .birthday-title { top: 2%; }
+        }
+
+        @media (max-height: 700px) {
+            .cake-stage { transform: scale(0.92); transition: transform 0.2s; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="fireworks-canvas"></canvas>
+
+    <div class="birthday-title">
+        <h1>✨ ¡Feliz Cumpleaños 15x2, LESLIE! ✨</h1>
+    </div>
+
+    <div class="cake-stage">
+        <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet">
+            <defs>
+                <!-- Filtros de brillo y sombra -->
+                <filter id="glowCandle" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="10" result="blur"/>
+                    <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="pastelShadow" x="-10%" y="-10%" width="130%" height="130%">
+                    <feDropShadow dx="0" dy="18" stdDeviation="12" flood-color="#2b0f2e" flood-opacity="0.5"/>
+                </filter>
+                <filter id="flowerGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="3" result="softglow"/>
+                    <feMerge>
+                        <feMergeNode in="softglow"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <!-- Degradados -->
+                <linearGradient id="cakeGradBottom" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ff98b9"/>
+                    <stop offset="100%" stop-color="#ff5e8e"/>
+                </linearGradient>
+                <linearGradient id="cakeGradTop" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fff5fb"/>
+                    <stop offset="100%" stop-color="#ffe0f0"/>
+                </linearGradient>
+                <linearGradient id="plateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fef9e6"/>
+                    <stop offset="100%" stop-color="#e6d5b3"/>
+                </linearGradient>
+                <pattern id="dotsPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <circle cx="20" cy="20" r="3" fill="#ffb3c6" opacity="0.5"/>
+                    <circle cx="0" cy="0" r="2" fill="#ffd966" opacity="0.4"/>
+                </pattern>
+            </defs>
+
+            <!-- ================= PLATO / BASE ================= -->
+            <g filter="url(#pastelShadow)">
+                <!-- Plato inferior elegante -->
+                <ellipse cx="800" cy="880" rx="470" ry="115" fill="#2a1b2e"/>
+                <ellipse cx="800" cy="865" rx="450" ry="105" fill="url(#plateGrad)"/>
+                <ellipse cx="800" cy="858" rx="430" ry="98" fill="#fffaf0"/>
+                <ellipse cx="800" cy="858" rx="400" ry="85" fill="url(#dotsPattern)"/>
+
+                <!-- PISO INFERIOR: pastel rosa intenso -->
+                <path d="M420,640 L420,850 A370,85 0 0,0 1180,850 L1180,640 Z" fill="url(#cakeGradBottom)"/>
+                <ellipse cx="800" cy="640" rx="380" ry="85" fill="#ffb7cb"/>
+                <!-- Glaseado cremoso derretido (blanco con brillo) -->
+                <path d="M420,640 Q485,730 535,655 Q605,770 665,670 Q735,795 800,690 Q865,795 935,670 Q1000,770 1065,655 Q1120,730 1180,640 
+                         C1180,640 1150,720 1080,660 Q1010,780 935,680 Q860,795 800,700 Q740,795 665,680 Q590,775 520,660 Q460,730 420,640 Z" 
+                      fill="#ffffff" opacity="0.95"/>
+                <path d="M550,660 Q620,740 680,680 Q740,760 800,690" stroke="#fff8e7" stroke-width="3" fill="none" opacity="0.6"/>
+
+                <!-- PISO SUPERIOR: blanco cremoso -->
+                <path d="M530,430 L530,640 A270,70 0 0,0 1070,640 L1070,430 Z" fill="url(#cakeGradTop)"/>
+                <ellipse cx="800" cy="430" rx="270" ry="70" fill="#fff8fc"/>
+                <!-- Glaseado derretido superior rosa chicle -->
+                <path d="M530,430 Q585,510 618,460 Q675,545 720,480 Q770,560 800,490 Q850,560 890,480 Q950,545 985,460 Q1025,510 1070,430 Z" 
+                      fill="#ff85aa" stroke="#ffa5c2" stroke-width="1.5"/>
+                
+                <!-- DETALLE DE CHISPAS DORADAS -->
+                <g opacity="0.7">
+                    <circle cx="620" cy="720" r="2.5" fill="#FFD966" filter="url(#flowerGlow)"/>
+                    <circle cx="900" cy="755" r="3" fill="#FFD966"/>
+                    <circle cx="710" cy="490" r="2.5" fill="#FFD966"/>
+                    <circle cx="890" cy="510" r="2" fill="#FFD966"/>
+                    <circle cx="1050" cy="810" r="2.5" fill="#FFD966"/>
+                    <circle cx="550" cy="800" r="2.5" fill="#FFD966"/>
+                </g>
+
+                <!-- ================= FLORES DECORATIVAS (MUCHAS FLORES HERMOSAS) ================= -->
+                <g filter="url(#flowerGlow)">
+                    <!-- Flor rosa fucsia izquierda -->
+                    <g transform="translate(480, 820) scale(1.3)">
+                        <circle cx="-18" cy="-18" r="20" fill="#ff3b6f"/><circle cx="18" cy="-18" r="20" fill="#ff3b6f"/>
+                        <circle cx="-18" cy="18" r="20" fill="#ff3b6f"/><circle cx="18" cy="18" r="20" fill="#ff3b6f"/>
+                        <circle cx="0" cy="0" r="14" fill="#FFE484"/>
+                    </g>
+                    <!-- Flor celeste -->
+                    <g transform="translate(600, 845) scale(1.1)">
+                        <circle cx="-16" cy="-16" r="18" fill="#48cae4"/><circle cx="16" cy="-16" r="18" fill="#48cae4"/>
+                        <circle cx="-16" cy="16" r="18" fill="#48cae4"/><circle cx="16" cy="16" r="18" fill="#48cae4"/>
+                        <circle cx="0" cy="0" r="11" fill="#ffffff"/>
+                    </g>
+                    <!-- Flor morada central enorme -->
+                    <g transform="translate(800, 870) scale(1.6)">
+                        <circle cx="-14" cy="-14" r="17" fill="#c084fc"/><circle cx="14" cy="-14" r="17" fill="#c084fc"/>
+                        <circle cx="-14" cy="14" r="17" fill="#c084fc"/><circle cx="14" cy="14" r="17" fill="#c084fc"/>
+                        <circle cx="0" cy="0" r="13" fill="#FFD966"/>
+                    </g>
+                    <!-- Flor rojo coral derecha base -->
+                    <g transform="translate(1020, 835) scale(1.2)">
+                        <circle cx="-17" cy="-17" r="19" fill="#ff7eb3"/><circle cx="17" cy="-17" r="19" fill="#ff7eb3"/>
+                        <circle cx="-17" cy="17" r="19" fill="#ff7eb3"/><circle cx="17" cy="17" r="19" fill="#ff7eb3"/>
+                        <circle cx="0" cy="0" r="12" fill="#f9f9b2"/>
+                    </g>
+                    <!-- Flor dorada base extrema derecha -->
+                    <g transform="translate(1140, 810) scale(1.3)">
+                        <circle cx="-15" cy="-15" r="18" fill="#f4d03f"/><circle cx="15" cy="-15" r="18" fill="#f4d03f"/>
+                        <circle cx="-15" cy="15" r="18" fill="#f4d03f"/><circle cx="15" cy="15" r="18" fill="#f4d03f"/>
+                        <circle cx="0" cy="0" r="12" fill="#e67e22"/>
+                    </g>
+                </g>
+
+                <!-- Flores en el piso superior -->
+                <g filter="url(#flowerGlow)">
+                    <g transform="translate(580, 620) scale(1)">
+                        <circle cx="-12" cy="-12" r="15" fill="#f72585"/><circle cx="12" cy="-12" r="15" fill="#f72585"/>
+                        <circle cx="-12" cy="12" r="15" fill="#f72585"/><circle cx="12" cy="12" r="15" fill="#f72585"/>
+                        <circle cx="0" cy="0" r="9" fill="#fee440"/>
+                    </g>
+                    <g transform="translate(720, 640) scale(1.1)">
+                        <circle cx="-13" cy="-13" r="14" fill="#7209b7"/><circle cx="13" cy="-13" r="14" fill="#7209b7"/>
+                        <circle cx="-13" cy="13" r="14" fill="#7209b7"/><circle cx="13" cy="13" r="14" fill="#7209b7"/>
+                        <circle cx="0" cy="0" r="10" fill="#ffb703"/>
+                    </g>
+                    <g transform="translate(890, 625) scale(1.05)">
+                        <circle cx="-12" cy="-12" r="14" fill="#06d6a0"/><circle cx="12" cy="-12" r="14" fill="#06d6a0"/>
+                        <circle cx="-12" cy="12" r="14" fill="#06d6a0"/><circle cx="12" cy="12" r="14" fill="#06d6a0"/>
+                        <circle cx="0" cy="0" r="9" fill="#ffd166"/>
+                    </g>
+                    <g transform="translate(1010, 645) scale(0.95)">
+                        <circle cx="-12" cy="-12" r="15" fill="#ffb347"/><circle cx="12" cy="-12" r="15" fill="#ffb347"/>
+                        <circle cx="-12" cy="12" r="15" fill="#ffb347"/><circle cx="12" cy="12" r="15" fill="#ffb347"/>
+                        <circle cx="0" cy="0" r="10" fill="#fff0b5"/>
+                    </g>
+                </g>
+
+                <!-- Flores pequeñas en el frente -->
+                <g>
+                    <g transform="translate(680, 850) scale(0.8)">
+                        <circle cx="-10" cy="-10" r="12" fill="#a2d2ff"/><circle cx="10" cy="-10" r="12" fill="#a2d2ff"/>
+                        <circle cx="-10" cy="10" r="12" fill="#a2d2ff"/><circle cx="10" cy="10" r="12" fill="#a2d2ff"/>
+                        <circle cx="0" cy="0" r="8" fill="#ffafcc"/>
+                    </g>
+                    <g transform="translate(950, 855) scale(0.8)">
+                        <circle cx="-10" cy="-10" r="12" fill="#cdb4db"/><circle cx="10" cy="-10" r="12" fill="#cdb4db"/>
+                        <circle cx="-10" cy="10" r="12" fill="#cdb4db"/><circle cx="10" cy="10" r="12" fill="#cdb4db"/>
+                        <circle cx="0" cy="0" r="8" fill="#ffc8dd"/>
+                    </g>
+                </g>
+
+                <!-- ================= VELAS MÁGICAS ================= -->
+                <g filter="url(#glowCandle)">
+                    <rect x="630" y="285" width="32" height="125" rx="8" fill="#00b4d8"/>
+                    <line x1="646" y1="285" x2="646" y2="260" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+                    <path class="flame" d="M646,195 Q667,240 646,265 Q625,240 646,195" fill="#ff9f1c"/>
+                    <path class="flame" d="M646,215 Q658,242 646,258 Q634,242 646,215" fill="#fff3b0"/>
+
+                    <rect x="784" y="255" width="32" height="155" rx="8" fill="#ffd166"/>
+                    <line x1="800" y1="255" x2="800" y2="230" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+                    <path class="flame" d="M800,165 Q822,210 800,238 Q778,210 800,165" fill="#ff9f1c"/>
+                    <path class="flame" d="M800,188 Q812,215 800,232 Q788,215 800,188" fill="#fff3b0"/>
+
+                    <rect x="938" y="285" width="32" height="125" rx="8" fill="#9d4edd"/>
+                    <line x1="954" y1="285" x2="954" y2="260" stroke="#2d2d2d" stroke-width="5" stroke-linecap="round"/>
+                    <path class="flame" d="M954,195 Q975,240 954,265 Q933,240 954,195" fill="#ff9f1c"/>
+                    <path class="flame" d="M954,215 Q966,242 954,258 Q942,242 954,215" fill="#fff3b0"/>
+                </g>
+            </g>
+
+            <!-- ================= SNOOPY A LA IZQUIERDA DEL PASTEL (FUERA DEL PASTEL, AL SUELO) ================= -->
+            <g transform="translate(60, 780) scale(2.2)" class="snoopy">
+                <!-- Cola -->
+                <path d="M 8,-30 Q -12,-45 2,-55" stroke="#111" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <!-- Piernas -->
+                <rect x="20" y="-18" width="14" height="32" fill="#fff" stroke="#111" stroke-width="3.5" rx="2"/>
+                <rect x="52" y="-18" width="14" height="32" fill="#fff" stroke="#111" stroke-width="3.5" rx="2"/>
+                <!-- Zapatos -->
+                <ellipse cx="16" cy="12" rx="24" ry="13" fill="#fff" stroke="#111" stroke-width="3.5"/>
+                <ellipse cx="68" cy="12" rx="24" ry="13" fill="#fff" stroke="#111" stroke-width="3.5"/>
+                <!-- Cuerpo -->
+                <path d="M 28,-52 C 18,-8 72,-8 62,-52 C 57,-72 33,-72 28,-52 Z" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+                <!-- Brazo levantado saludando -->
+                <path d="M 48,-45 Q 75,-65 85,-42" stroke="#111" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <!-- Collar rojo -->
+                <path d="M 30,-70 L 64,-60" stroke="#e63946" stroke-width="8" stroke-linecap="round"/>
+                <!-- Cabeza -->
+                <path d="M 28,-68 C 6,-125 70,-125 72,-92 C 85,-92 108,-80 108,-58 C 108,-30 45,-30 40,-68 Z" fill="#fff" stroke="#111" stroke-width="3.5"/>
+                <!-- Oreja negra -->
+                <path d="M 45,-98 C 28,-98 32,-48 46,-48 C 56,-48 62,-98 45,-98 Z" fill="#111"/>
+                <!-- Nariz -->
+                <circle cx="104" cy="-63" r="8" fill="#111"/>
+                <!-- Ojo -->
+                <path d="M 66,-83 Q 72,-92 78,-83" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <!-- Sonrisa -->
+                <path d="M 77,-52 Q 88,-45 96,-58" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <!-- Cachete -->
+                <circle cx="82" cy="-68" r="4" fill="#ff99c8" opacity="0.6"/>
+            </g>
+
+            <!-- ================= WOODSTOCK A LA DERECHA DEL PASTEL (FUERA DEL PASTEL, AL SUELO) ================= -->
+            <g transform="translate(1480, 795) scale(2.0)" class="woodstock">
+                <!-- Patitas -->
+                <line x1="42" y1="12" x2="42" y2="34" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="56" y1="12" x2="56" y2="34" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="32" y1="34" x2="44" y2="34" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <line x1="56" y1="34" x2="68" y2="34" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                <!-- Colita -->
+                <path d="M 68,-12 Q 86,-22 80,-4" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <!-- Cuerpo -->
+                <ellipse cx="49" cy="0" rx="18" ry="24" fill="#FFD966" stroke="#111" stroke-width="3"/>
+                <!-- Ala -->
+                <path d="M 49,-6 Q 68,18 78,-6 Z" fill="#FFD966" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                <!-- Cabeza -->
+                <circle cx="44" cy="-35" r="20" fill="#FFD966" stroke="#111" stroke-width="3"/>
+                <!-- Cresta (pelo) -->
+                <path d="M 32,-52 Q 18,-72 38,-54 M 46,-54 Q 42,-78 52,-54 M 58,-50 Q 74,-68 63,-42" 
+                      fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Ojo -->
+                <circle cx="36" cy="-39" r="3.5" fill="#111"/>
+                <!-- Pico -->
+                <path d="M 30,-33 Q 2,-27 30,-20 Z" fill="#FFB347" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Mejilla -->
+                <circle cx="44" cy="-28" r="3.5" fill="#F4A261" opacity="0.8"/>
+            </g>
+
+            <!-- Estrellitas y confeti mágico flotando alrededor del pastel -->
+            <g>
+                <circle cx="300" cy="300" r="4" fill="#FFE484" opacity="0.8">
+                    <animate attributeName="cy" values="300;280;300" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1300" cy="250" r="5" fill="#FFB3BA" opacity="0.9">
+                    <animate attributeName="cy" values="250;230;250" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="500" cy="180" r="3.5" fill="#C4E0FF">
+                    <animate attributeName="cy" values="180;160;180" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="1100" cy="190" r="4" fill="#FFD6A5">
+                    <animate attributeName="cy" values="190;170;190" dur="3.2s" repeatCount="indefinite"/>
+                </circle>
+                <path d="M 1450 150 L 1460 140 L 1470 150 L 1460 160 Z" fill="#FFB347" opacity="0.7">
+                    <animateTransform attributeName="transform" type="rotate" values="0 1460 150;360 1460 150" dur="8s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 120 220 L 130 210 L 140 220 L 130 230 Z" fill="#FFC8DD">
+                    <animateTransform attributeName="transform" type="rotate" values="0 130 220;360 130 220" dur="7s" repeatCount="indefinite"/>
+                </path>
+                <!-- Corazones flotando -->
+                <path d="M 350 400 C 350 395 345 390 340 390 C 333 390 330 397 330 402 C 330 410 340 418 350 425 C 360 418 370 410 370 402 C 370 397 367 390 360 390 C 355 390 350 395 350 400 Z" fill="#ff6b9d" opacity="0.6" transform="scale(0.6)">
+                    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-30; 0,0" dur="4s" repeatCount="indefinite"/>
+                </path>
+            </g>
+        </svg>
+    </div>
+
+    <div class="wish-ribbon">🎀 ¡Pide un deseo, sopla las velas y celebra! 🎀</div>
+    <div class="hint-click">✨ Haz clic en cualquier lugar → ¡Fuegos artificiales! ✨</div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('fireworks-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, dpr;
+            
+            function resizeCanvas() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = canvas.width = window.innerWidth * dpr;
+                height = canvas.height = window.innerHeight * dpr;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const gravity = 0.03;
+            const friction = 0.985;
+            let rockets = [];
+            let particles = [];
+            
+            function random(min, max) { return min + Math.random() * (max - min); }
+            function hslColor(h, s, l, a) { return `hsla(${h}, ${s}%, ${l}%, ${a})`; }
+            
+            function launchFirework() {
+                const x0 = random(width * 0.2, width * 0.8);
+                const y0 = height;
+                const targetX = random(width * 0.2, width * 0.8);
+                const targetY = random(height * 0.15, height * 0.45);
+                const angle = Math.atan2(targetY - y0, targetX - x0);
+                const speed = random(9, 13);
+                rockets.push({
+                    x: x0, y: y0, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+                    colorHue: Math.floor(random(0, 360)), targetY: targetY
+                });
+            }
+            
+            function explodeParticles(x, y, baseHue) {
+                const particleCount = 280;
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = random(0, Math.PI * 2);
+                    const speed = random(2, 8);
+                    particles.push({
+                        x: x, y: y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        life: random(1.0, 1.8),
+                        hue: baseHue + random(-25, 25)
+                    });
+                }
+            }
+            
+            function updateFireworks() {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                ctx.fillRect(0, 0, width, height);
+                ctx.globalCompositeOperation = 'lighter';
+                
+                for (let i = rockets.length-1; i >= 0; i--) {
+                    const r = rockets[i];
+                    r.vy += gravity;
+                    r.x += r.vx;
+                    r.y += r.vy;
+                    ctx.beginPath();
+                    ctx.arc(r.x, r.y, 3.2 * dpr, 0, Math.PI*2);
+                    ctx.fillStyle = hslColor(r.colorHue, 100, 60, 1);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.moveTo(r.x, r.y);
+                    ctx.lineTo(r.x - r.vx * 3, r.y - r.vy * 3);
+                    ctx.strokeStyle = hslColor(r.colorHue, 100, 65, 0.7);
+                    ctx.lineWidth = 2.2 * dpr;
+                    ctx.stroke();
+                    
+                    if (r.y <= r.targetY || r.vy >= 0.5) {
+                        explodeParticles(r.x, r.y, r.colorHue);
+                        rockets.splice(i,1);
+                    }
+                }
+                
+                for (let i=particles.length-1; i>=0; i--) {
+                    const p = particles[i];
+                    p.vx *= friction;
+                    p.vy = p.vy * friction + gravity * 0.45;
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= 0.012;
+                    if (p.life <= 0) { particles.splice(i,1); continue; }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2.8 * dpr * (p.life / 1.5), 0, Math.PI*2);
+                    ctx.fillStyle = hslColor(p.hue, 100, 65, Math.min(p.life, 1.0));
+                    ctx.fill();
+                }
+                requestAnimationFrame(updateFireworks);
+            }
+            
+            function startBursts() {
+                launchFirework();
+                setTimeout(() => launchFirework(), 200);
+                setTimeout(() => launchFirework(), 450);
+                setTimeout(() => launchFirework(), 700);
+                setTimeout(() => launchFirework(), 950);
+            }
+            
+            canvas.addEventListener('click', (e) => { startBursts(); });
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startBursts(); });
+            
+            updateFireworks();
+            setTimeout(startBursts, 500);
+            
+            // Animación de flamas
+            const flames = document.querySelectorAll('.flame');
+            if(flames.length) {
+                setInterval(() => {
+                    flames.forEach(flame => {
+                        const scaleVal = 0.85 + Math.random() * 0.5;
+                        flame.style.transform = `scale(${scaleVal}) translateY(${Math.random() * 4 - 2}px)`;
+                        flame.style.transformOrigin = 'center bottom';
+                    });
+                }, 150);
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;900&display=swap');
+* { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+body {
+    color: azure; width: 100%; height: 100vh; margin: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: radial-gradient(circle, #2a0845 0%, #0f0518 100%); overflow: hidden;
+}
+.greetings {
+    font-size: 4.5rem; font-weight: 900; text-align: center; margin-bottom: 20px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;
+}
+.greetings > span { animation: glow 2.5s ease-in-out infinite; }
+@keyframes glow {
+    0%, 100% { color: #fff; text-shadow: 0 0 12px #ff7eb3, 0 0 50px #ff7eb3, 0 0 100px #ffdf00; }
+    10%, 90% { color: #4a3b5c; text-shadow: none; }
+}
+.greetings > span:nth-child(2) { animation-delay: .1s; }
+.greetings > span:nth-child(3) { animation-delay: .2s; }
+.greetings > span:nth-child(4) { animation-delay: .3s; }
+.greetings > span:nth-child(5) { animation-delay: .4s; }
+.greetings > span:nth-child(6) { animation-delay: .5s; }
+.greetings > span:nth-child(7) { animation-delay: .6s; }
+.greetings > span:nth-child(8) { animation-delay: .7s; }
+.greetings > span:nth-child(9) { animation-delay: .8s; }
+.greetings > span:nth-child(10) { animation-delay: .9s; }
+.greetings > span:nth-child(11) { animation-delay: 1s; }
+.greetings > span:nth-child(12) { animation-delay: 1.1s; }
+
+.description { font-size: 1.3rem; margin-bottom: 30px; color: #ffdf00; text-align: center; padding: 0 15px; }
+.button button {
+    background-color: #ff7eb3; border: none; padding: 12px 28px; cursor: pointer;
+    border-radius: 50px; box-shadow: 0 0 15px #ff7eb3; transition: all 0.3s ease-in-out;
+}
+.button button:hover { transform: scale(1.05); box-shadow: 0 0 25px #ffdf00; background-color: #ffdf00; }
+.button button a { text-decoration: none; font-size: 1.1rem; font-weight: bold; color: #0f0518; display:block; width:100%; height:100%;}
+@media screen and (max-width: 600px) {
+    .greetings { font-size: 2.8rem; } .description { font-size: 1rem; }
+}
